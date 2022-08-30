@@ -3,6 +3,8 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.filter.log.RequestLoggingFilter;
 import io.restassured.filter.log.ResponseLoggingFilter;
 import io.restassured.http.ContentType;
+import io.restassured.http.Headers;
+import io.restassured.response.Response;
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -75,6 +77,31 @@ public class ReqResTest {
                 .log().all() // We can see all the parameters but here is inside the answer
                 .statusCode(HttpStatus.SC_OK)
                 .body("data.id",equalTo(2)); //Assertion with a intern data like "id" equal to "some value"
+
+    }
+
+    @Test
+    public void getAllUsersTest(){
+
+        Response response =  given()
+                .get("users?page=2");  // response
+        Headers headers = response.getHeaders();
+        int statusCode = response.getStatusCode();
+        String body = response.getBody().asString();
+        String contentType = response.getContentType();
+
+        assertThat(statusCode,equalTo(HttpStatus.SC_OK));
+        System.out.println("Body" + body);
+        System.out.println("Content Type" + contentType);
+        System.out.println("Header" + headers.toString());
+
+        System.out.println("**************");
+        System.out.println("**************");
+
+        System.out.println(headers.get("Content-Type"));
+        headers.get("Transfer-Encoding");
+
+
 
     }
 
