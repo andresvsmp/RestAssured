@@ -13,6 +13,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static io.restassured.path.json.JsonPath.from;
 
 public class ReqResTest {
 
@@ -105,6 +106,22 @@ public class ReqResTest {
 
     }
 
+    @Test
+    public void getAllUsersTest2(){
+
+        String response = given()
+                .when()
+                .get("users?page=2").then().extract().body().asString();
+
+        int page = from(response).get("page");
+        int Totalpage = from(response).get("total_pages");
+        int idFirstUser = from(response).get("data[0].id");
+
+        System.out.println("Page: " +  page);
+        System.out.println("Total Pages: " + Totalpage );
+        System.out.println("Id first user:" + idFirstUser);
+
+    }
 
     //DELETE METHOD
     @Test
@@ -159,6 +176,8 @@ public class ReqResTest {
 
 
     }
+
+
 
 
 
