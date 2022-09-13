@@ -9,6 +9,9 @@ import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Map;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
@@ -120,6 +123,14 @@ public class ReqResTest {
         System.out.println("Page: " +  page);
         System.out.println("Total Pages: " + Totalpage );
         System.out.println("Id first user:" + idFirstUser);
+
+        //FindAll always MUST USE in an array!! This works for find some variable
+        List<Map> userWithIdGreaterThan10 = from(response).get("data.findAll{user -> user.id >10 }");
+        String email = userWithIdGreaterThan10.get(0).get("email").toString();
+
+        List<Map> user = from(response).get("data.findAll{user -> user.id >10 && user.last_name == 'Howell' }");
+        int id = Integer.valueOf( user.get(0).get("email").toString()); //id: 12 user: size =1
+
 
     }
 
