@@ -69,6 +69,23 @@ public class ReqResTest {
 
     }
 
+    @Test
+    public void createUserTest(){
+
+        String response = given()
+                .when()
+                .body("{\n" +
+                        "    \"name\": \"morpheus\",\n" +
+                        "    \"job\": \"leader\"\n" +
+                        "}")
+                .post("users")
+                .then().extract().body().asString();
+
+
+
+
+
+    }
 
     // GET METHOD
     @Test
